@@ -1,5 +1,7 @@
 package team.test.teamFile.server;
 
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import team.test.teamFile.constants.HandleConstants;
 import team.test.teamFile.constants.ServerConstants;
 import team.test.teamFile.dao.Factory.FileFactory;
@@ -18,8 +20,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 服务器
@@ -27,15 +28,18 @@ import java.util.concurrent.Executors;
  */
 public class Server {
 
-    FileFactory fileFactory = new FileFactory();
-    UserFactory userFactory = new UserFactory();
+    private FileFactory fileFactory = new FileFactory();
+    private UserFactory userFactory = new UserFactory();
     private UserDao userDao = (UserDao) userFactory.getInstance();
     private FileDao fileDao = (FileDao) fileFactory.getInstance();
 
 
-    public static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 
-    private ExecutorService threadPool = Executors.newFixedThreadPool(CPU_COUNT * 2);
+    private ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("thread-call-runner-%d").build();
+
+    private ExecutorService threadPool = new ThreadPoolExecutor(10,20,200L,
+            TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(),namedThreadFactory);
+
     /**
      * 服务器启动方法
      */
@@ -134,7 +138,7 @@ public class Server {
             //判断该用户文件是否存在在数据库中
             FileItem fileItem = fileDao.selectFileItemByUserIdAndFilename(userId, fileName);
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            //fileItem is exists
+            //fileItem存在还是不存在
             if (fileItem == null) {
                 fileItem = new FileItem(uploadFile.getName(), uploadFile.getPath(),
                         uploadFile.length(), userId, 0,time);
