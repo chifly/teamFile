@@ -1,6 +1,7 @@
 package team.test.teamFile.utils;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import team.test.teamFile.utils.Strategy.*;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -8,13 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 数据库工具类
  * @author chh
  */
 public class JdbcUtils {
+
     /**
      * 创建连接池
      */
@@ -31,6 +35,8 @@ public class JdbcUtils {
      * @throws SQLException
      */
     public static <T> List<T> query(Class clazz, String sql, Object... args) {
+        HashMap<Class, CastValueStrategy> maps = new HashMap<>();
+        mapInitialize(maps);
         //获得连接对象
         try (Connection conn = dataSource.getConnection()) {
             //获得命令对象
@@ -56,7 +62,12 @@ public class JdbcUtils {
                     //属性设置为可以访问
                     field.setAccessible(true);
                     //赋值给该列
-                    field.set(obj, castValue(field.getType(), value));
+                    //field.set(obj, castValue(field.getType(), value));
+                    //策略模式赋值给该列
+                    CastValue castValue = new CastValue(field.getType(), value);
+                    CastValueStrategy castValueStrategy = maps.get(field.getType());
+                    castValueStrategy.setCastValue(castValue);
+                    field.set(obj, Factory.getInvokeHandler(field.getType()).castValue());
                 }
                 list.add((T) obj);
             }
@@ -72,45 +83,59 @@ public class JdbcUtils {
     }
 
     /**
+     * 初始化各种属性值类
+     * @param map 一个储存策略类型的map
+     */
+    public static void mapInitialize(Map map){
+        map.put(Integer.class, new IntegerValue());
+        map.put(Float.class, new FloatValue());
+        map.put(Double.class, new DoubleValue());
+        map.put(Character.class, new CharacterValue());
+        map.put(Short.class, new ShortValue());
+        map.put(Boolean.class, new BooleanValue());
+        map.put(Long.class, new LongValue());
+        map.put(String.class, new OtherValue());
+    }
+    /**
      * 属性值类型转化
      * @param valueType
      * @param value
      * @return
      */
-    public static Object castValue(Class valueType, Object value){
-        if (valueType == Integer.class) {
-            return Integer.valueOf(value.toString());
-        }
-        if (valueType == Byte.class) {
-            return Byte.valueOf(value.toString());
-        }
-        if (valueType == Short.class) {
-            return Short.valueOf(value.toString());
-        }
-        if (valueType == Float.class) {
-            return Float.valueOf(value.toString());
-        }
-        if (valueType == Double.class) {
-            return Double.valueOf(value.toString());
-        }
-        if (valueType == Character.class) {
-            return value.toString().charAt(0);
-        }
-        if (valueType == Long.class) {
-            return Long.valueOf(value.toString());
-        }
-        if (valueType == Boolean.class) {
-            return Boolean.valueOf(value.toString());
-        }
-        return value.toString();
-    }
+//    public static Object castValue(Class valueType, Object value){
+//        if (valueType == Integer.class) {
+//            return Integer.valueOf(value.toString());
+//        }
+//        if (valueType == Byte.class) {
+//            return Byte.valueOf(value.toString());
+//        }
+//        if (valueType == Short.class) {
+//            return Short.valueOf(value.toString());
+//        }
+//        if (valueType == Float.class) {
+//            return Float.valueOf(value.toString());
+//        }
+//        if (valueType == Double.class) {
+//            return Double.valueOf(value.toString());
+//        }
+//        if (valueType == Character.class) {
+//            return value.toString().charAt(0);
+//        }
+//        if (valueType == Long.class) {
+//            return Long.valueOf(value.toString());
+//        }
+//        if (valueType == Boolean.class) {
+//            return Boolean.valueOf(value.toString());
+//        }
+//        return value.toString();
+//    }
 
     /**
      * 增删改查
-     * @param sql
-     * @param args
+     * @param sql sql语句
+     * @param args 属性值
      * @return update
-     * @throws SQLException
+     * @throws SQLException sql异常
      */
     public static int update(String sql, Object... args) {
         //获得连接对象
