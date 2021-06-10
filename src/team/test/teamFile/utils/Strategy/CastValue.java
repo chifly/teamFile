@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 一个数据包装类
+ * @author  chh
+ */
 public class CastValue<T> {
     private Class valueType;
     private T value;

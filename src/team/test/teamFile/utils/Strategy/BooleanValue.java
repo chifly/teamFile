@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 布尔类型的数值
+ * @author chh
+ */
 public class BooleanValue implements CastValueStrategy {
     private CastValue castValue;
 

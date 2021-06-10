@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 整型数据的类型
+ * @author chh
+ */
 public class IntegerValue implements CastValueStrategy{
     private CastValue castValue;
     public IntegerValue() {

@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 长整型数据的策略类
+ * @author chh
+ */
 public class LongValue implements CastValueStrategy{
     private CastValue castValue;
 

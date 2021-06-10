@@ -15,7 +15,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="3ba63" class="javax.swing.JTable" binding="tb_File">
+          <component id="3ba63" class="javax.swing.JTable" binding="tbFile">
             <constraints/>
             <properties/>
           </component>
@@ -29,7 +29,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="cf795" class="javax.swing.JButton" binding="btn_Refresh">
+          <component id="cf795" class="javax.swing.JButton" binding="btnRefresh">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -37,7 +37,7 @@
               <text value="刷新"/>
             </properties>
           </component>
-          <component id="72cc8" class="javax.swing.JButton" binding="btn_Upload">
+          <component id="72cc8" class="javax.swing.JButton" binding="btnUpload">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -45,7 +45,7 @@
               <text value="上传"/>
             </properties>
           </component>
-          <component id="23818" class="javax.swing.JButton" binding="btn_Download">
+          <component id="23818" class="javax.swing.JButton" binding="btnDownload">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -53,7 +53,7 @@
               <text value="下载"/>
             </properties>
           </component>
-          <component id="ae84f" class="javax.swing.JButton" binding="btn_Delete">
+          <component id="ae84f" class="javax.swing.JButton" binding="btnDelete">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

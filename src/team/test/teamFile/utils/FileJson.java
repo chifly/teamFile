@@ -13,7 +13,7 @@ import java.util.List;
 public class FileJson {
     /**
      * 文件转化为json格式
-     * @param fileItems
+     * @param fileItems 文件数据
      * @return String
      */
     public static String listToJson(List<FileItem> fileItems) {
@@ -22,8 +22,8 @@ public class FileJson {
 
     /**
      * json数据转化为文件
-     * @param json
-     * @return
+     * @param json json数据
+     * @return List<FileItem>
      */
     public static List<FileItem> jsonToList(String json) {
         return new Gson().fromJson(json, new TypeToken<List<FileItem>>(){}.getType());

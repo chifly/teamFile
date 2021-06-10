@@ -92,8 +92,8 @@ public class Server {
     }
     /**
      * 处理文件查询
-     * @param inputStream
-     * @param outputStream
+     * @param inputStream 输入流
+     * @param outputStream 输出流
      */
     public synchronized void handleListFiles(DataInputStream inputStream, DataOutputStream outputStream) throws IOException {
         //接收用户id
@@ -111,9 +111,9 @@ public class Server {
     }
     /**
      * 处理文件的上传
-     * @param inputStream
-     * @param outputStream
-     * @throws IOException
+     * @param inputStream 输入流
+     * @param outputStream 输出流
+     * @throws IOException io异常
      */
     public synchronized void handleUpload(DataInputStream inputStream, DataOutputStream outputStream) throws IOException {
         String fileName = inputStream.readUTF();
@@ -128,7 +128,10 @@ public class Server {
             User user = userDao.selectUserById(userId);
             File file = new File(HandleConstants.UPLOAD_PATH + "\\" +  user.getUsername());
             if (!file.exists()) {
-                file.mkdirs();
+                boolean wasSuccessful = file.mkdirs();
+                if (!wasSuccessful) {
+                    System.out.println("创建文件失败");
+                }
             }
             File uploadFile = new File(HandleConstants.UPLOAD_PATH + "\\" +  user.getUsername() + "\\" + fileName);
             //创建文件输出流
@@ -155,8 +158,8 @@ public class Server {
 
     /**
      * 处理文件下载
-     * @param inputStream
-     * @param outputStream
+     * @param inputStream 输入流
+     * @param outputStream 输出流
      */
     public synchronized void handleDownload(DataInputStream inputStream, DataOutputStream outputStream) throws IOException {
         //接受文件名
@@ -182,9 +185,9 @@ public class Server {
 
     /**
      * 删除
-     * @param inputStream
-     * @param outputStream
-     * @throws IOException
+     * @param inputStream 输入流
+     * @param outputStream 输出流
+     * @throws IOException Io异常
      */
     public synchronized void handleDelete(DataInputStream inputStream, DataOutputStream outputStream) throws IOException {
         //接受文件名
@@ -198,13 +201,16 @@ public class Server {
                 outputStream.writeUTF(file.getName());
                 //delete
                 fileDao.deleteFileItem(fileId);
-                file.delete();
+                boolean wasSuccessful = file.delete();
+                if (!wasSuccessful) {
+                    System.out.println("删除失败，出现异常");
+                }
             } else {
                 //not exit
                 outputStream.writeUTF(HandleConstants.FAILURE);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }

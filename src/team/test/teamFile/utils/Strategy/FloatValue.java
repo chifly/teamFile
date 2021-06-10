@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 单精度浮点型的数字类型
+ * @author chh
+ */
 public class FloatValue implements CastValueStrategy{
     private CastValue castValue;
 

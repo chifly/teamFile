@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 双精度浮点型的数据
+ * @author chh
+ */
 public class DoubleValue implements CastValueStrategy{
     private CastValue castValue;
 

@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 短整型的策略类
+ * @author chh
+ */
 public class ShortValue implements CastValueStrategy{
     private CastValue castValue;
 

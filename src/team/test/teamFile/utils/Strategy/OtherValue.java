@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 其他数据类的策略类，为了以后万一有改进方便添加
+ * @author chh
+ */
 public class OtherValue implements CastValueStrategy{
     private CastValue castValue;
 

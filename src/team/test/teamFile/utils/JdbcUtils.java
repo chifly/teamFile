@@ -31,8 +31,10 @@ public class JdbcUtils {
      * @param sql 语句
      * @param args 参数
      * @param <T> 类型
-     * @return
+     * @return list
      * @throws SQLException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
      */
     public static <T> List<T> query(Class clazz, String sql, Object... args) {
         HashMap<Class, CastValueStrategy> maps = new HashMap<>();
@@ -84,24 +86,24 @@ public class JdbcUtils {
 
     /**
      * 初始化各种属性值类
-     * @param map 一个储存策略类型的map
+     * @param maps 一个储存策略类型的map
      */
-    public static void mapInitialize(Map map){
-        map.put(Integer.class, new IntegerValue());
-        map.put(Float.class, new FloatValue());
-        map.put(Double.class, new DoubleValue());
-        map.put(Character.class, new CharacterValue());
-        map.put(Short.class, new ShortValue());
-        map.put(Boolean.class, new BooleanValue());
-        map.put(Long.class, new LongValue());
-        map.put(String.class, new OtherValue());
+    public static void mapInitialize(Map<Class, CastValueStrategy> maps){
+        maps.put(Integer.class, new IntegerValue());
+        maps.put(Float.class, new FloatValue());
+        maps.put(Double.class, new DoubleValue());
+        maps.put(Character.class, new CharacterValue());
+        maps.put(Short.class, new ShortValue());
+        maps.put(Boolean.class, new BooleanValue());
+        maps.put(Long.class, new LongValue());
+        maps.put(String.class, new OtherValue());
     }
-    /**
-     * 属性值类型转化
-     * @param valueType
-     * @param value
-     * @return
-     */
+//    /**
+//     * 属性值类型转化
+//     * @param valueType
+//     * @param value
+//     * @return
+//     */
 //    public static Object castValue(Class valueType, Object value){
 //        if (valueType == Integer.class) {
 //            return Integer.valueOf(value.toString());

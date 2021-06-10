@@ -11,9 +11,9 @@ import java.io.OutputStream;
 public class FileUtils {
     /**
      * 文件IO
-     * @param in
-     * @param out
-     * @throws IOException
+     * @param in 输入流
+     * @param out 输出流
+     * @throws IOException io异常捕获
      */
     public static void io(InputStream in, OutputStream out) throws IOException {
         byte[] buff = new byte[1024];

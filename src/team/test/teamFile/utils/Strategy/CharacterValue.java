@@ -1,5 +1,9 @@
 package team.test.teamFile.utils.Strategy;
 
+/**
+ * 字符类
+ * @author chh
+ */
 public class CharacterValue implements CastValueStrategy{
     private CastValue castValue;
 

@@ -4,43 +4,39 @@ package team.test.teamFile.ui;
 import team.test.teamFile.utils.NetWorkUtils;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
- * @author 陈航
+ * 启动面板
+ * @author chh
  */
 public class LoginUi {
     private JTextField txtUsername;
     private JPasswordField txtPassword;
-    private JButton BtnLogin;
-    private JButton BtnRegist;
+    private JButton btnLogin;
+    private JButton btnRegist;
     private JPanel panel1;
     private static JFrame LoginFrame;
 
     public LoginUi() {
         //登录按钮
-        BtnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = txtUsername.getText();
-                String password = txtPassword.getText();
-                if (username.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "账号不能为空");
-                    return;
-                }
-                if (password.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "密码不能为空");
-                    return;
-                }
-                Long userId = NetWorkUtils.login(username, password);
-                if (userId == null || userId == -1) {
-                    JOptionPane.showMessageDialog(null, "登录失败");
-                    return;
-                }
-                showClientFrom(userId);
-                LoginFrame.dispose();
+        btnLogin.addActionListener(e -> {
+            String username = txtUsername.getText();
+            String password = String.valueOf(txtPassword.getPassword());
+            if (username.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "账号不能为空");
+                return;
             }
+            if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "密码不能为空");
+                return;
+            }
+            Long userId = NetWorkUtils.login(username, password);
+            if (userId == null || userId == -1) {
+                JOptionPane.showMessageDialog(null, "登录失败");
+                return;
+            }
+            showClientFrom(userId);
+            LoginFrame.dispose();
         });
     }
 
