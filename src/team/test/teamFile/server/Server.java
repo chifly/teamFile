@@ -54,7 +54,7 @@ public class Server {
                 threadPool.execute(() -> {
                     //获得IO流 装饰者模式
                     try (DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-                         DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());) {
+                         DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream())) {
                         //获得客户端的命令类型
                         int type = inputStream.readInt();
                         switch (type) {
